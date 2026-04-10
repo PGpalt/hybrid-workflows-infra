@@ -36,12 +36,17 @@ terraform/
 2. Copy `terraform/environments/minikube/terraform.tfvars.example` to a local
    `terraform.tfvars`.
 3. Run `make tf-init ENV=minikube`.
-4. Run `make tf-apply ENV=minikube`.
-5. Run `make tf-apply-root ENV=minikube`.
+4. Run `make tf-plan ENV=minikube`.
+5. Run `make tf-apply ENV=minikube`.
+6. Run `make tf-plan-root ENV=minikube`.
+7. Run `make tf-apply-root ENV=minikube`.
 
 The split between `tf-apply` and `tf-apply-root` is deliberate. Argo CD is
 installed by Helm first, and only after its CRDs exist do we create the root
 `Application` with the Kubernetes provider.
+
+The `Makefile` uses saved plan files by default so `apply` uses the exact plan
+you reviewed. Those local plan artifacts are ignored by Git.
 
 ## Minikube assumptions
 
