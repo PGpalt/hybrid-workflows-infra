@@ -1,0 +1,12 @@
+# Copy this file to terraform.tfvars for local use.
+
+kubeconfig_context = "minikube"
+
+# First apply with this left as false so Terraform can install Argo CD and its
+# CRDs. After that succeeds, set it to true and apply again to create the root
+# Application.
+enable_root_application = false
+
+# Rotate these locally and do not commit the resulting terraform.tfvars file.
+minio_access_key = "replace-me"
+minio_secret_key = "replace-me"
