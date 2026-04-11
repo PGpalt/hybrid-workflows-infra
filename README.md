@@ -64,7 +64,7 @@ you reviewed. Those local plan artifacts are ignored by Git.
 ## Forking This Stack
 
 If you fork the three repos and want infra to bootstrap from your own GitOps
-repo, set `gitops_repo_url` in your local `terraform.tfvars`. The default value
+repo, set `gitops_repo_url` in your local `terraform.tfvars`. The default value is
 in [terraform/environments/minikube/variables.tf]
 still points at `https://github.com/PGpalt/hybrid-workflows-gitops.git`.
 
