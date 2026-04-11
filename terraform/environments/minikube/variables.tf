@@ -64,6 +64,17 @@ variable "argocd_server_node_port" {
   default     = 32002
 }
 
+variable "argocd_admin_password" {
+  description = "Argo CD admin password managed by Terraform for the Minikube environment."
+  type        = string
+  sensitive   = true
+
+  validation {
+    condition     = length(var.argocd_admin_password) > 0
+    error_message = "Set argocd_admin_password in terraform.tfvars."
+  }
+}
+
 variable "argo_namespace" {
   description = "Namespace where runtime-owned bootstrap objects should be created."
   type        = string

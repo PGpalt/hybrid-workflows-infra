@@ -7,6 +7,9 @@ kubeconfig_context = "minikube"
 # Application.
 enable_root_application = false
 
+# Terraform hashes this before passing it to the Argo CD Helm chart.
+argocd_admin_password = "replace-me"
+
 # Rotate these locally and do not commit the resulting terraform.tfvars file.
 minio_access_key = "replace-me"
 minio_secret_key = "replace-me"

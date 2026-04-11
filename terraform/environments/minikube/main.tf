@@ -4,6 +4,9 @@ locals {
       params = {
         "server.insecure" = "true"
       }
+      secret = {
+        argocdServerAdminPassword = bcrypt(var.argocd_admin_password)
+      }
     }
     server = {
       service = {
