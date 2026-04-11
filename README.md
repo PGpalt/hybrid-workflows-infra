@@ -55,10 +55,3 @@ you reviewed. Those local plan artifacts are ignored by Git.
 - The sibling GitOps repo contains `clusters/minikube`.
 - MinIO credentials are provided through local Terraform variables and are not
   committed.
-
-## Next steps
-
-- wire `eks-dev` and `eks-prod` to real AWS/EKS provider inputs
-- decide whether Minikube cluster creation itself should stay scripted or move
-  into a separate local-only workflow
-- migrate any remaining bootstrap logic out of the operator repo
