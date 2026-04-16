@@ -12,8 +12,8 @@ help:
 	@printf "  tf-init       Initialize the selected environment\n"
 	@printf "  tf-plan       Save a plan file without the root Application\n"
 	@printf "  tf-apply      Apply the saved plan file without the root Application\n"
-	@printf "  tf-plan-root  Save a plan file with the root Application enabled\n"
-	@printf "  tf-apply-root Apply the saved plan file with the root Application enabled\n"
+	@printf "  tf-plan-root  Save a plan file with the root Application enabled (bootstrap envs only)\n"
+	@printf "  tf-apply-root Apply the saved plan file with the root Application enabled (bootstrap envs only)\n"
 
 .PHONY: tf-fmt
 tf-fmt:

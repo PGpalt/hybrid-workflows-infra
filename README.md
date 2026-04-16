@@ -2,14 +2,16 @@
 
 Terraform bootstrap for the Hybrid Workflows platform.
 
-The current focus is a Terraform-first Minikube bootstrap that proves the
-workflow we want to reuse later for `eks-dev` and `eks-prod`.
+The current focus is a Terraform-first bootstrap flow for Minikube plus a
+minimal `eks-dev` EKS demo path that we can evolve later toward `eks-prod`.
 
 ## Scope
 
-This repo is intended to own cluster bootstrap concerns:
+This repo is intended to own cluster bootstrap concerns and the minimal AWS
+foundation scaffolding needed by EKS demo environments:
 
 - connect Terraform to an existing Kubernetes cluster
+- optionally create AWS foundation resources for EKS environments
 - install Argo CD with the Helm provider
 - set the Argo CD admin password through local Terraform variables
 - create bootstrap namespaces and runtime-owned secrets with the Kubernetes provider
@@ -24,11 +26,13 @@ and app-of-apps structure.
 terraform/
   environments/
     minikube/
+    eks-dev-cluster/
     eks-dev/
     eks-prod/
   modules/
     argocd-bootstrap/
     argocd-root-application/
+    eks-foundation/
 ```
 
 ## Minikube workflow
@@ -53,6 +57,40 @@ installed by Helm first, and only after its CRDs exist do we create the root
 The `Makefile` uses saved plan files by default so `apply` uses the exact plan
 you reviewed. Those local plan artifacts are ignored by Git.
 
+## EKS Dev Workflow
+
+`eks-dev` now uses two Terraform stages:
+
+1. `terraform/environments/eks-dev-cluster` creates the minimal AWS/EKS demo
+   foundation.
+2. `terraform/environments/eks-dev` bootstraps Argo CD into that existing EKS
+   cluster and creates the root `Application`.
+
+Typical flow:
+
+1. Copy `terraform/environments/eks-dev-cluster/terraform.tfvars.example` to a
+   local `terraform.tfvars`.
+2. Set the artifact bucket name that the `clusters/eks-dev` GitOps overlay will
+   use.
+3. Run `make tf-init ENV=eks-dev-cluster`.
+4. Run `make tf-plan ENV=eks-dev-cluster`.
+5. Run `make tf-apply ENV=eks-dev-cluster`.
+6. Run the `kubectl_update_command` output to configure local Kubernetes access.
+7. Copy `terraform/environments/eks-dev/terraform.tfvars.example` to a local
+   `terraform.tfvars`.
+8. Set `argocd_admin_password`.
+9. Run `make tf-init ENV=eks-dev`.
+10. Run `make tf-plan ENV=eks-dev`.
+11. Run `make tf-apply ENV=eks-dev`.
+12. Run `make tf-plan-root ENV=eks-dev`.
+13. Run `make tf-apply-root ENV=eks-dev`.
+
+The current `clusters/eks-dev` GitOps overlay assumes:
+
+- infra default region `eu-north-1`
+- bucket `hybrid-workflows-eks-dev-artifacts`
+- Pod Identity-aligned Argo service account names `argo-workflow` and `argo-server`
+
 ## Minikube assumptions
 
 - Minikube is already running.
@@ -64,9 +102,11 @@ you reviewed. Those local plan artifacts are ignored by Git.
 ## Forking This Stack
 
 If you fork the three repos and want infra to bootstrap from your own GitOps
-repo, set `gitops_repo_url` in your local `terraform.tfvars`. The default value is
-in [terraform/environments/minikube/variables.tf]
-still points at `https://github.com/PGpalt/hybrid-workflows-gitops.git`.
+repo, set `gitops_repo_url` in your local `terraform.tfvars` for the bootstrap
+environments (`minikube`, `eks-dev`). The default values in
+[terraform/environments/minikube/variables.tf](/workspaces/hybrid-workflows-infra/terraform/environments/minikube/variables.tf:13)
+and [terraform/environments/eks-dev/variables.tf](/workspaces/hybrid-workflows-infra/terraform/environments/eks-dev/variables.tf:18)
+still point at `https://github.com/PGpalt/hybrid-workflows-gitops.git`.
 
 You may also want to override `gitops_target_revision` if your GitOps repo uses
 a different default branch.
