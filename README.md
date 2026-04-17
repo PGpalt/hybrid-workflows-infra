@@ -91,6 +91,10 @@ The current `clusters/eks-dev` GitOps overlay assumes:
 - bucket `hybrid-workflows-eks-dev-artifacts`
 - Pod Identity-aligned Argo service account names `argo-workflow` and `argo-server`
 
+For `eks-dev`, Terraform owns the Argo CD install and the root `Application`.
+Argo CD then owns the `argo` namespace and the platform workloads under
+`clusters/eks-dev`.
+
 ## Minikube assumptions
 
 - Minikube is already running.

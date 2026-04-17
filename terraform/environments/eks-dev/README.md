@@ -15,6 +15,10 @@ It is responsible for:
 It intentionally does not create the VPC, EKS control plane, node groups, or
 artifact bucket. Those belong to the separate AWS foundation stage.
 
+For Kubernetes object ownership, Terraform only bootstraps Argo CD itself and
+the root `Application`. The `argo` namespace and the Argo Workflows resources
+inside it are owned by the GitOps repo.
+
 ## Workflow
 
 1. Apply `terraform/environments/eks-dev-cluster` first.

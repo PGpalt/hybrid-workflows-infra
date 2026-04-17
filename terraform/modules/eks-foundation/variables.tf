@@ -12,7 +12,7 @@ variable "environment" {
 variable "kubernetes_version" {
   description = "Kubernetes version for the EKS control plane."
   type        = string
-  default     = "1.32"
+  default     = "1.34"
 }
 
 variable "artifact_bucket_name" {

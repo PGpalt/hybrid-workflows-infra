@@ -24,6 +24,7 @@ module "argocd_bootstrap" {
   argocd_chart_version          = var.argocd_chart_version
   argocd_values                 = local.argocd_values
   argo_namespace                = var.argo_namespace
+  create_argo_namespace         = false
   create_minio_bootstrap_secret = false
   wait                          = var.argocd_wait
   timeout_seconds               = var.argocd_timeout_seconds
