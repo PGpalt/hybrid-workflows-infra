@@ -24,15 +24,19 @@ which bootstraps Argo CD into an already existing EKS cluster.
 1. Copy `terraform.tfvars.example` to `terraform.tfvars`.
 2. Set `artifact_bucket_name`. If you cannot claim the current GitOps bucket
    name globally, change the GitOps repo to match the name you use here.
-3. The infra demo defaults now use `eu-north-1`. Update
-   `clusters/eks-dev/application-argo-workflows.yaml` in the GitOps repo too,
-   because it currently still points Argo Workflows at `us-east-1`.
+3. The infra demo defaults use `eu-north-1`. Keep the GitOps repo aligned with
+   the same region and bucket name.
 4. Run `make tf-init ENV=eks-dev-cluster`.
 5. Run `make tf-plan ENV=eks-dev-cluster`.
 6. Run `make tf-apply ENV=eks-dev-cluster`.
 7. After the cluster becomes active, run the `kubectl_update_command` output to
    configure local Kubernetes access.
 8. Continue with `terraform/environments/eks-dev` to bootstrap Argo CD.
+
+For teardown, use:
+
+1. `make tf-plan-destroy ENV=eks-dev-cluster`
+2. `make tf-apply-destroy ENV=eks-dev-cluster`
 
 ## Demo Defaults
 

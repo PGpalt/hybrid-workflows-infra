@@ -85,6 +85,13 @@ Typical flow:
 12. Run `make tf-plan-root ENV=eks-dev`.
 13. Run `make tf-apply-root ENV=eks-dev`.
 
+Clean teardown uses the same explicit `ENV=` values:
+
+1. Run `make tf-plan-destroy-root ENV=eks-dev`.
+2. Run `make tf-apply-destroy-root ENV=eks-dev`.
+3. Run `make tf-plan-destroy ENV=eks-dev-cluster`.
+4. Run `make tf-apply-destroy ENV=eks-dev-cluster`.
+
 The current `clusters/eks-dev` GitOps overlay assumes:
 
 - infra default region `eu-north-1`

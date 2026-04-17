@@ -31,6 +31,11 @@ inside it are owned by the GitOps repo.
 8. Run `make tf-plan-root ENV=eks-dev`.
 9. Run `make tf-apply-root ENV=eks-dev`.
 
+For teardown, use:
+
+1. `make tf-plan-destroy-root ENV=eks-dev`
+2. `make tf-apply-destroy-root ENV=eks-dev`
+
 The split between `tf-apply` and `tf-apply-root` is still deliberate: Argo CD
 must exist before Terraform can create the root `Application` CR.
 
