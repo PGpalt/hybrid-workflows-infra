@@ -3,6 +3,8 @@ TF ?= terraform
 TF_DIR := terraform/environments/$(ENV)
 TF_PLAN ?= tfplan.tfplan
 TF_PLAN_ROOT ?= tfplan-root.tfplan
+TF_PLAN_DESTROY ?= tfplan-destroy.tfplan
+TF_PLAN_DESTROY_ROOT ?= tfplan-destroy-root.tfplan
 
 .PHONY: help
 help:
@@ -14,6 +16,10 @@ help:
 	@printf "  tf-apply      Apply the saved plan file without the root Application\n"
 	@printf "  tf-plan-root  Save a plan file with the root Application enabled (bootstrap envs only)\n"
 	@printf "  tf-apply-root Apply the saved plan file with the root Application enabled (bootstrap envs only)\n"
+	@printf "  tf-plan-destroy Save a destroy plan file for the selected environment\n"
+	@printf "  tf-apply-destroy Apply the saved destroy plan file for the selected environment\n"
+	@printf "  tf-plan-destroy-root Save a destroy plan file including the root Application (bootstrap envs only)\n"
+	@printf "  tf-apply-destroy-root Apply the saved destroy plan file including the root Application (bootstrap envs only)\n"
 
 .PHONY: tf-fmt
 tf-fmt:
@@ -38,3 +44,19 @@ tf-plan-root:
 .PHONY: tf-apply-root
 tf-apply-root:
 	$(TF) -chdir=$(TF_DIR) apply $(TF_PLAN_ROOT)
+
+.PHONY: tf-plan-destroy
+tf-plan-destroy:
+	$(TF) -chdir=$(TF_DIR) plan -destroy -out=$(TF_PLAN_DESTROY)
+
+.PHONY: tf-apply-destroy
+tf-apply-destroy:
+	$(TF) -chdir=$(TF_DIR) apply $(TF_PLAN_DESTROY)
+
+.PHONY: tf-plan-destroy-root
+tf-plan-destroy-root:
+	$(TF) -chdir=$(TF_DIR) plan -destroy -out=$(TF_PLAN_DESTROY_ROOT) -var="enable_root_application=true"
+
+.PHONY: tf-apply-destroy-root
+tf-apply-destroy-root:
+	$(TF) -chdir=$(TF_DIR) apply $(TF_PLAN_DESTROY_ROOT)
