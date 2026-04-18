@@ -25,7 +25,7 @@ variable "environment" {
 variable "kubernetes_version" {
   description = "Kubernetes version for the EKS control plane."
   type        = string
-  default     = "1.34"
+  default     = "1.35"
 }
 
 variable "artifact_bucket_name" {
@@ -47,7 +47,7 @@ variable "vpc_cidr" {
 variable "node_instance_type" {
   description = "Instance type used by the single demo EKS managed node."
   type        = string
-  default     = "t3.medium"
+  default     = "t3.small"
 }
 
 variable "tags" {
